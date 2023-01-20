@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="eng">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Document</title>
+   </head>
+   <body>
+      <table>
+         <tr>
+            {% for header in headings %}
+            <th>{{ header }}</th>
+            {% endfor %}
+         </tr>
+         {% for row in data %}
+         <tr>
+            {% for cell in row[1:] %}
+               <td>{{ cell }}</td>
+            {% endfor %}
+            <td>      
+               <form method="post" action={{  url_for('edit_user', user_id=row[0])  }}>
+                  <input value = {{ row[0] }} type="hidden" name="my_id">
+                  <input type="submit" value="Edit" name="Edit"/>
+               </form>
+            </td>
+            <td>      
+               <form method="post" action="/">
+                  <input value = {{ row[0] }} type="hidden" name="my_id">
+                  <input type="submit" value="Delete" name="Delete"/>
+               </form>
+            </td>
+         </tr>
+         {% endfor %}
+      </table>
+
+      {% block content %}
+      <h1>{% block title %} Create new user {% endblock %}</h1>
+      <form method="post">
+          <label for="title">Name</label>
+          <br>
+          <input type="text" name="Name"
+                 placeholder="Full name"
+                 value="{{ request.form['Name'] }}"></input>
+          <br>
+          <label for="title">Birthday</label>
+          <br>
+          <input type="text" name="Birthday"
+                 placeholder="dd/mm/yyyy"
+                 value="{{ request.form['Birthday'] }}"></input>
+          <br>
+          <label for="title">Email</label>
+          <br>
+          <input type="text" name="Email"
+                 placeholder="user@provider.com"
+                 value="{{ request.form['Email'] }}"></input>
+          <br>
+          <input type="submit" value="Confirm" name="Confirm" />
+      </form>
+      {% endblock %}
+   </body>
+</html>
